@@ -248,7 +248,7 @@ struct DBRow(Specs...)
 
         void setNull(size_t index)()
         {
-            static if (isNullable!(fieldTypes[index]))
+            static if (isNullable!(fieldTypes[index]) || isDynamicArray!(fieldTypes[index]))
             {
                 static if (isStaticArray!T)
                     base[index] = null;
@@ -273,7 +273,7 @@ struct DBRow(Specs...)
 
         void setNull(size_t index)()
         {
-            static if (isNullable!T)
+            static if (isNullable!T || isDynamicArray!T)
                 base = null;
             else
                 throw new Exception("Cannot set NULL to " ~ T.stringof ~ ", it is not nullable");
